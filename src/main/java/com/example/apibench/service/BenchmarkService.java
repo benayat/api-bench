@@ -21,7 +21,7 @@ public class BenchmarkService {
     @Timer
     public BenchResponse singleThreadBenchmarks(int numberOfRequests) throws BadRequestException, FailedRequestException {
         for (int i = 0; i < numberOfRequests; i++) {
-            benchedApiClient.sendBenchmarkRequest();
+            benchedApiClient.sendBenchmarkRequestReturnVoid();
         }
         return new BenchResponse(numberOfRequests);
     }
@@ -31,7 +31,7 @@ public class BenchmarkService {
         try (var executor = Executors.newVirtualThreadPerTaskExecutor()) {
             IntStream.range(0, numberOfUsers).forEach(i -> executor.submit(() -> {
                 for (int j = 0; j < requestsPerUser; j++) {
-                    benchedApiClient.sendBenchmarkRequest();
+                    benchedApiClient.sendBenchmarkRequestReturnVoid();
                 }
             }));
         }
@@ -41,9 +41,7 @@ public class BenchmarkService {
     @Timer
     public BenchResponse multithreadedRandomUserBenchmark(int numberOfRequests) {
         try (var executor = Executors.newVirtualThreadPerTaskExecutor()) {
-            IntStream.range(0, numberOfRequests).forEach(i -> executor.submit(() -> {
-                benchedApiClient.sendBenchmarkRequest();
-            }));
+            IntStream.range(0, numberOfRequests).forEach(i -> executor.submit(benchedApiClient::sendBenchmarkRequestReturnVoid));
         }
         return new BenchResponse(numberOfRequests);
     }

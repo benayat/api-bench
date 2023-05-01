@@ -15,12 +15,11 @@ public class BenchedApiClient {
     @Value("${webclient.default.endpoint}")
     private final String endpoint;
     private final WebClient webClient;
-    public boolean sendBenchmarkRequest(){
+    public void sendBenchmarkRequestReturnVoid(){
         webClient.get()
                 .uri(endpoint)
                 .retrieve()
                 .onStatus(HttpStatusCode::is5xxServerError, clientResponse -> Mono.error(FailedRequestException::new))
                 .onStatus(HttpStatusCode::is4xxClientError, clientResponse -> Mono.error(BadRequestException::new));
-        return true;
     }
 }
