@@ -21,6 +21,7 @@ public class Runner implements CommandLineRunner {
     private final int numberOfRequests;
     @Value("${bench.users}")
     private final int numberOfUsers;
+
     private final BenchmarkService benchmarkService;
     @Override
     public void run(String... args) {
@@ -30,7 +31,7 @@ public class Runner implements CommandLineRunner {
             case "multi-user":
                 yield benchmarkService.multithreadedCustomUsers(numberOfUsers, numberOfRequests);
             case "multi-user-random":
-                benchmarkService.multithreadedRandomUserBenchmark(numberOfRequests);
+                yield benchmarkService.multithreadedRandomUserBenchmark(numberOfRequests);
             default: yield null;
         };
         assert benchResponse != null;

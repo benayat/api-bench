@@ -9,12 +9,10 @@ import lombok.NoArgsConstructor;
 @Data
 public class BenchResponse {
     long timeInMs;
-    boolean success;
     int numberOfRequests;
     double requestsPerSecond;
 
-    public BenchResponse(boolean success, int numberOfRequests) {
-        this.success = success;
+    public BenchResponse( int numberOfRequests) {
         this.numberOfRequests = numberOfRequests;
     }
     public void updateTime(long timeInMs){

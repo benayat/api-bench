@@ -11,4 +11,5 @@
 
 ##### technologies
 - spring aop - for measuring methods and api load-tests runtime, without polluting my business code, and without the use of needless and complicated api filters and interceptors.
-- 
+- docker engine api - get stats for memory usage with the api, using webclient and basic auth.
+- link to the docs: https://docs.docker.com/engine/api/v1.42/#tag/Container/operation/ContainerLogs

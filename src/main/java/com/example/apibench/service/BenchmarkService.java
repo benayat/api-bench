@@ -17,12 +17,13 @@ import java.util.stream.IntStream;
 @Slf4j
 public class BenchmarkService {
     private final BenchedApiClient benchedApiClient;
+
     @Timer
     public BenchResponse singleThreadBenchmarks(int numberOfRequests) throws BadRequestException, FailedRequestException {
         for (int i = 0; i < numberOfRequests; i++) {
             benchedApiClient.sendBenchmarkRequest();
         }
-        return new BenchResponse(true, numberOfRequests);
+        return new BenchResponse(numberOfRequests);
     }
 
     @Timer
@@ -34,7 +35,7 @@ public class BenchmarkService {
                 }
             }));
         }
-        return new BenchResponse(true, numberOfUsers * requestsPerUser);
+        return new BenchResponse(numberOfUsers * requestsPerUser);
     }
 
     @Timer
@@ -44,6 +45,6 @@ public class BenchmarkService {
                 benchedApiClient.sendBenchmarkRequest();
             }));
         }
-        return new BenchResponse(true, numberOfRequests);
+        return new BenchResponse(numberOfRequests);
     }
 }
