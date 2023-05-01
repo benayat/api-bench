@@ -28,7 +28,9 @@ public class Runner implements CommandLineRunner {
             case "single-thread":
                 yield benchmarkService.singleThreadBenchmarks(numberOfRequests);
             case "multi-user":
-                yield benchmarkService.multiThreadCustomThreadsAndReqs(numberOfUsers, numberOfRequests);
+                yield benchmarkService.multithreadedCustomUsers(numberOfUsers, numberOfRequests);
+            case "multi-user-random":
+                benchmarkService.multithreadedRandomUserBenchmark(numberOfRequests);
             default: yield null;
         };
         assert benchResponse != null;

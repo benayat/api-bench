@@ -26,7 +26,7 @@ public class BenchmarkService {
     }
 
     @Timer
-    public BenchResponse multiThreadCustomThreadsAndReqs(int numberOfUsers, int requestsPerUser) {
+    public BenchResponse multithreadedCustomUsers(int numberOfUsers, int requestsPerUser) {
         try (var executor = Executors.newVirtualThreadPerTaskExecutor()) {
             IntStream.range(0, numberOfUsers).forEach(i -> executor.submit(() -> {
                 for (int j = 0; j < requestsPerUser; j++) {
@@ -38,7 +38,7 @@ public class BenchmarkService {
     }
 
     @Timer
-    public BenchResponse getBenchmarksSuccessfulRequests(int numberOfRequests) {
+    public BenchResponse multithreadedRandomUserBenchmark(int numberOfRequests) {
         try (var executor = Executors.newVirtualThreadPerTaskExecutor()) {
             IntStream.range(0, numberOfRequests).forEach(i -> executor.submit(() -> {
                 benchedApiClient.sendBenchmarkRequest();
