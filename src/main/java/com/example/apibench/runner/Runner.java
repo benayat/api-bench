@@ -16,11 +16,11 @@ import org.springframework.stereotype.Component;
 public class Runner implements CommandLineRunner {
 
     @Value("${bench.type}")
-    private final String benchType;
+    private String benchType;
     @Value("${bench.requests}")
-    private final int numberOfRequests;
+    private int numberOfRequests;
     @Value("${bench.users}")
-    private final int numberOfUsers;
+    private int numberOfUsers;
 
     private final BenchmarkService benchmarkService;
     @Override

@@ -15,6 +15,9 @@ public class BenchResponse {
     public BenchResponse( int numberOfRequests) {
         this.numberOfRequests = numberOfRequests;
     }
+//    public BenchResponse(int durationInSeconds) {
+//        this.numberOfRequests = numberOfRequests;
+//    }
     public void updateTime(long timeInMs){
         setTimeInMs(timeInMs);
         setRequestsPerSecond((double) getNumberOfRequests()*1000/timeInMs);

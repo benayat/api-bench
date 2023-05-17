@@ -1,22 +1,26 @@
 package com.example.apibench.model.dto;
 
-import com.example.apibench.model.ContainerResources;
+import com.example.apibench.model.container_resources.ContainerResources;
 import lombok.Data;
 
 @Data
 public class ContainerResourcesDto {
 
-    private final int cpuPercentage;
-    private final int memoryInMb;
-    private final int cpuMilliCors;
+    private final double cpuPercentage;
+    private final double memoryInMb;
+    private final double cpuMilliCors;
 
 
-    public ContainerResourcesDto(int cpuContainer, int cpuSystem, int numberOfCpus, int memoryRss) {
-        this.cpuPercentage = 100 * cpuContainer / cpuSystem;
-        this.cpuMilliCors = 10 * getCpuPercentage() * numberOfCpus;
-        this.memoryInMb = memoryRss / (1024 * 1024);
+    public ContainerResourcesDto(double containerCpu, double systemCpu, long numberOfCpus, double memoryInBytes) {
+        this.cpuPercentage = 100.0 * (containerCpu / systemCpu);
+        this.cpuMilliCors = 10.0 * getCpuPercentage() * numberOfCpus;
+        this.memoryInMb = memoryInBytes / (1024 * 1024);
     }
+
     public ContainerResourcesDto(ContainerResources resources) {
-        this(resources.getCpuContainer(), resources.getCpuSystem(), resources.getNumberOfCpus(), resources.getMemoryRss());
+        this(resources.getCpuStats().getCpuUsage().getContainerCpuTotalUsage(),
+                resources.getCpuStats().getSystemCpu(),
+                resources.getCpuStats().getNumberOfCpus(),
+                resources.getMemoryStats().getMemoryUsageInBytes());
     }
 }

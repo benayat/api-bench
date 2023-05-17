@@ -3,6 +3,7 @@ package com.example.apibench.client;
 import com.example.apibench.exceptions.BadRequestException;
 import com.example.apibench.exceptions.FailedRequestException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.stereotype.Component;
@@ -13,7 +14,8 @@ import reactor.core.publisher.Mono;
 @RequiredArgsConstructor
 public class BenchedApiClient {
     @Value("${webclient.default.endpoint}")
-    private final String endpoint;
+    private String endpoint;
+    @Qualifier("api-web-client")
     private final WebClient webClient;
     public void sendBenchmarkRequestReturnVoid(){
         webClient.get()

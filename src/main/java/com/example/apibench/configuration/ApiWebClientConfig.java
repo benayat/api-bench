@@ -8,10 +8,10 @@ import org.springframework.web.reactive.function.client.WebClient;
 
 @RequiredArgsConstructor
 @Configuration
-public class WebClientConfig{
+public class ApiWebClientConfig {
     @Value("${webclient.default.baseurl}")
-    private final String baseUrl;
-    @Bean
+    private String baseUrl;
+    @Bean("api-web-client")
     WebClient getWebClient(){
         return WebClient.builder()
                 .baseUrl(baseUrl)
