@@ -17,7 +17,7 @@ public class BenchedApiClient {
     private String endpoint;
     @Qualifier("api-web-client")
     private final WebClient webClient;
-    public void sendBenchmarkRequestReturnVoid(){
+    public void sendBenchmarkRequestReturnVoid() throws FailedRequestException, BadRequestException{
         webClient.get()
                 .uri(endpoint)
                 .retrieve()

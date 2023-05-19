@@ -27,21 +27,7 @@ public class BenchmarkService {
         }
         return new BenchResponse(numberOfRequests);
     }
-
-    @Timer
-    @ResourceMonitor
-    public BenchResponse multithreadedCustomUsers(int numberOfUsers, int requestsPerUser) {
-        try (var executor = Executors.newVirtualThreadPerTaskExecutor()) {
-            IntStream.range(0, numberOfUsers).forEach(i -> executor.submit(() -> {
-                for (int j = 0; j < requestsPerUser; j++) {
-                    benchedApiClient.sendBenchmarkRequestReturnVoid();
-                }
-            }));
-        }
-        return new BenchResponse(numberOfUsers * requestsPerUser);
-    }
-
-//    todo instead of number of requests, do it by time!
+    //    todo instead of number of requests, do it by time!
 //    @Timer
 //    @ResourceMonitor
 //    public BenchResponse multithreadedCustomUsersByTime(int numberOfUsers, int timeInSeconds) {
@@ -56,6 +42,22 @@ public class BenchmarkService {
 //        }
 //        return new BenchResponse(numberOfUsers * requestsPerUser);
 //    }
+
+    @Timer
+    @ResourceMonitor
+    public BenchResponse multithreadedCustomUsers(int numberOfUsers, int requestsPerUser) {
+        try (var executor = Executors.newVirtualThreadPerTaskExecutor()) {
+            IntStream.range(0, numberOfUsers).forEach(i -> executor.submit(() -> {
+                for (int j = 0; j < requestsPerUser; j++) {
+                    benchedApiClient.sendBenchmarkRequestReturnVoid();
+                }
+            }));
+        } catch (BadRequestException | FailedRequestException e){
+            log.error(e.getMessage());
+        }
+        return new BenchResponse(numberOfUsers * requestsPerUser);
+    }
+
     @Timer
     @ResourceMonitor
     public BenchResponse multithreadedRandomUserBenchmark(int numberOfRequests) {

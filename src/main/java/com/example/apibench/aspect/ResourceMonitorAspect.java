@@ -47,7 +47,7 @@ public class ResourceMonitorAspect {
         try (var executor = Executors.newSingleThreadExecutor()) {
             executor.submit(() ->
                     setApiSubscription(responseMonoStream.subscribe(stringData -> {
-                                log.info("this is the received String: " + stringData);
+                                log.debug("this is the received String: " + stringData);
                                 ContainerResources resources;
                                 try {
                                     resources = mapper.readValue(stringData, ContainerResources.class);
@@ -56,6 +56,7 @@ public class ResourceMonitorAspect {
                                 }
                                 assert resources != null;
                                 ContainerResourcesDto containerResourcesDto = new ContainerResourcesDto(resources);
+                                log.info("cpu: "+containerResourcesDto.getCpuPercentage()+ " and memory: "+containerResourcesDto.getMemoryInMb());
                                 simpMessagingTemplate.convertAndSend("/topic/monitor", containerResourcesDto);
                             },
                             error -> {
