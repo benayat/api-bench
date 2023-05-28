@@ -8,8 +8,11 @@
 
 ###### 1.0.1:
 - using builder pattern for cleaner testing code, due to nested json objects.
+
+###### 1.1.0:
+- added tests skeleton. passes for MethodTimingAspect.
 ##### todo:
 - add a method for running benchmarks by time, and not by number of requests.
 - add better exceptions for ResourceMonitor aspect.
 - add docs for all new features.
-- 
+- finish testing.

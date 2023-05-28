@@ -6,7 +6,9 @@ import com.example.apibench.client.BenchedApiClient;
 import com.example.apibench.exceptions.BadRequestException;
 import com.example.apibench.exceptions.FailedRequestException;
 import com.example.apibench.model.BenchResponse;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -16,6 +18,8 @@ import java.util.stream.IntStream;
 @Service
 @RequiredArgsConstructor
 @Slf4j
+@Getter
+@Setter
 public class BenchmarkService {
     private final BenchedApiClient benchedApiClient;
 
@@ -27,15 +31,13 @@ public class BenchmarkService {
         }
         return new BenchResponse(numberOfRequests);
     }
-    //    todo instead of number of requests, do it by time!
 //    @Timer
 //    @ResourceMonitor
 //    public BenchResponse multithreadedCustomUsersByTime(int numberOfUsers, int timeInSeconds) {
-//        try (var executor = Executors.newVirtualThreadPerTaskExecutor()) {
-//            IntStream.range(0, numberOfUsers).forEach(i -> executor.submit(() -> {
-//                StopWatch watch = new StopWatch(String.valueOf(i));
-//                watch.start();
-//                while (watch.getTotalTimeSeconds()<timeInSeconds){
+//        try (var executor = new StructuredTaskScope.ShutdownOnFailure()) {
+//            IntStream.range(0, numberOfUsers).forEach(i -> executor.fork(() -> {
+//
+//                    while(!Thread.currentThread().isInterrupted()){
 //                    benchedApiClient.sendBenchmarkRequestReturnVoid();
 //                }
 //            }));
